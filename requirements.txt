@@ -1,0 +1,9 @@
+streamlit
+langchain
+langchain_groq
+pytesseract
+torch
+transformers
+Pillow
+PyMuPDF
+huggingface_hub
