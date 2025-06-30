@@ -7,3 +7,4 @@ transformers
 Pillow
 PyMuPDF
 huggingface_hub
+dotenv
