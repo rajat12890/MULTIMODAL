@@ -8,7 +8,7 @@ from chains.text_qa import get_text_qa_chain
 from utils.extract_pdf_text import extract_text_from_pdf
 from utils.extract_image_text import extract_text_from_image
 from langchain_groq import ChatGroq
-
+from chains.image_caption import generate_image_caption
 # Load environment variables
 load_dotenv()
 groq_key = os.getenv("GROQ_API_KEY")
@@ -53,9 +53,18 @@ elif input_type == "Image":
 
         # Extract: Caption + OCR
         with st.spinner("🧠 Extracting image understanding..."):
-            # caption = generate_image_caption(image)
-            caption=""
+            caption = generate_image_caption(image)
             ocr_text = extract_text_from_image(image)
+
+        # Show results
+        if not caption.strip() and not ocr_text.strip():
+            st.warning("⚠️ No meaningful content extracted from the image.")
+            context = ""
+        else:
+            context = f"{caption}\n{ocr_text}"
+            st.success(f"📝 Caption: {caption}")
+            st.info(f"🧾 OCR Text: {ocr_text}")
+
 
         st.success(f"📝 Caption: {caption}")
         st.info(f"🧾 OCR Text: {ocr_text}")
@@ -63,6 +72,8 @@ elif input_type == "Image":
         # Q&A on image
         question = st.text_input("💬 Ask a question about the image")
         if st.button("Ask Image Question"):
+            if not context.strip():
+                st.error("❌ Can't answer — image contains no useful information.")
             chain = get_text_qa_chain(llm)
           
             context = f"{caption}\n{ocr_text}\n" + build_context_from_history(st.session_state.history)
