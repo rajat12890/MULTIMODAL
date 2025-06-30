@@ -2,10 +2,9 @@ streamlit
 langchain
 langchain_groq
 langchain-community
-pytesseract
 torch
 transformers
 Pillow
 PyMuPDF
 huggingface_hub
-dotenv
+python-dotenv
