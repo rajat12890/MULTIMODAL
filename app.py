@@ -3,12 +3,11 @@ from PIL import Image
 from dotenv import load_dotenv
 import os
 
-# from chains.image_caption import generate_image_caption
 from chains.text_qa import get_text_qa_chain
 from utils.extract_pdf_text import extract_text_from_pdf
-# from utils.extract_image_text import extract_text_from_image
+
 from langchain_groq import ChatGroq
-# from chains.image_caption import generate_image_caption
+
 # Load environment variables
 load_dotenv()
 groq_key = os.getenv("GROQ_API_KEY")
